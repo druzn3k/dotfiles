@@ -1,0 +1,11 @@
+---
+ubuntu:
+  groups:
+    - dialout
+    - lp
+
+  packages:
+    prereq:
+      - git
+      - build-essential
+      - curl
