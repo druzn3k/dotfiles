@@ -3,25 +3,23 @@
   debug:
     msg: "{{ ansible_distribution }} {{ ansible_distribution_release }} {{ ansible_distribution_version }}"
 
-- name: Upgrade all packages on servers
-  become: true
-  become_method: sudo
-  apt:
-    upgrade: dist
-    update_cache: true
-    cache_valid_time: 3600
-      
-- name: Remove useless packages from the cache
-  become: true
-  become_method: sudo
-  apt:
-    autoclean: yes
-    autoremove: yes
+- name: Update system with apt and remove all the old packages if necessary
+  block:
+    - name: Upgrade all packages on servers
+      apt:
+        upgrade: dist
+        update_cache: true
+        cache_valid_time: 3600
+          
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: yes
+        autoremove: yes
 
-- name: Install base packages
+    - name: Install base packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ ubuntu.packages.prereq|flatten }}"
   become: true
   become_method: sudo
-  apt:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ ubuntu.packages.prereq|flatten }}"
