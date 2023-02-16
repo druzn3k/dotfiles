@@ -4,20 +4,23 @@
     msg: "{{ ansible_distribution }} {{ ansible_distribution_release }} {{ ansible_distribution_version }}"
 
 - name: Upgrade all packages on servers
+  become: true
+  become_method: sudo
   apt:
     upgrade: dist
     update_cache: true
     cache_valid_time: 3600
       
 - name: Remove useless packages from the cache
+  become: true
+  become_method: sudo
   apt:
     autoclean: yes
-
-- name: Remove dependencies that are no longer required
-  apt:
     autoremove: yes
 
 - name: Install base packages
+  become: true
+  become_method: sudo
   apt:
     name: "{{ item }}"
     state: present
