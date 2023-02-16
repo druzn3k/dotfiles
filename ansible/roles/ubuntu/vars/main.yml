@@ -6,6 +6,12 @@ ubuntu:
 
   packages:
     prereq:
-      - git
+      - apt-transport-https
+      - bmon
       - build-essential
       - curl
+      - git
+      - htop
+      - ncdu
+      - net-tools
+      - zsh
