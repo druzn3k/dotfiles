@@ -1,2 +1,7 @@
 ---
-# tasks file for ubuntu
+- name: Install base packages
+  apt:
+    force_apt_get: true
+    name: "{{ item }}"
+    state: present
+  loop: "{{ ubuntu.packages.prereq|flatten }}"
