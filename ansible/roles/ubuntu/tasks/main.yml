@@ -7,12 +7,18 @@
   apt:
     upgrade: dist
     update_cache: true
-    # cache_valid_time: 3600
-    force_apt_get: yes
+    cache_valid_time: 3600
+      
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
 
 - name: Install base packages
   apt:
-    force_apt_get: true
     name: "{{ item }}"
     state: present
   loop: "{{ ubuntu.packages.prereq|flatten }}"
